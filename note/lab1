@@ -1,0 +1,197 @@
+下载
+`npm install -g typescript`
+编译ts
+`tsc file.ts`
+
+- 基础数据类型
+
+```ts
+let isDone:boolean = false;
+
+let num: number = 1;
+
+let MyName: string = 'fuck';
+
+//模板字符串
+let info: string = `hi my name is ${MyName}`;
+
+//JavaScript 没有空值（Void）的概念，在 TypeScript 中，可以用 void 表示没有任何返回值的函数：
+function fuck (persion: string):void{
+    alert('fuck!');
+}
+
+let u: undefined =undefined;
+
+let n: null =null;
+
+```
+- 任意值
+
+如果是一个普通类型，在赋值过程中改变类型是不被允许的：
+```ts
+let myNum:number = 1001;
+myNum = '1001'; //error
+```
+
+但如果是`any`类型，则允许被赋值为任意类型。
+```ts
+let c: any = 'fuck';
+c = 1;
+```
+变量如果在声明的时候，未指定其类型，那么它会被识别为任意值类型
+
+- 类型推断
+
+如果没有明确的指定类型，那么 TypeScript 会依照类型推论（Type Inference）的规则推断出一个类型
+
+```ts
+let d = 'ddd';
+d = 1001; //error
+ 
+ //如果定义的时候没有赋值，不管之后有没有赋值，都会被推断成 any 类型而完全不被类型检查
+let d;
+d = 'ddd';
+d = 1001;
+```
+
+- 联合类型
+
+联合类型（Union Types）表示取值可以为多种类型中的一种
+
+```ts
+let c1 : number | string = 'test';
+c1 = 1001;
+```
+
+当 TypeScript 不确定一个联合类型的变量到底是哪个类型的时候，我们只能访问此联合类型的所有类型里共有的属性或方法
+```ts
+let c1 : number | string = 'test';
+c1 = 1001;
+console.log(c1.length); //error
+
+console.log(c1.toString); //no problem
+```
+
+- 对象类型
+
+TypeScript 中的接口是一个非常灵活的概念，除了可用于对类的一部分行为进行抽象以外，也常用于对「对象的形状（Shape）」进行描述。
+
+定义的变量比接口少了一些属性是不允许的
+```ts
+interface Person {
+    name: string;
+    age: number;
+}
+
+let tom: Person = {
+    name: 'tom',
+    age: 120
+}
+```
+
+不完全匹配，设置可选属性
+```ts
+interface Person {
+    name: string;
+    age?: number;
+}
+
+let tom: Person = {
+    name: 'tom'
+}
+```
+
+任意属性
+```ts
+interface Person {
+    name: string;
+    age?: number;
+    [propName:string]:any
+}
+
+let tom: Person = {
+    name: 'tom',
+    age: 1001,
+    fuck: 'caonima'
+}
+console.log(tom.fuck)
+```
+需要注意的是，一旦定义了任意属性，那么确定属性和可选属性的类型都必须是它的类型的子集
+```ts
+interface Person {
+    name: string;
+    age?: number;
+    [propName: string]: string;
+}
+
+let tom: Person = {
+    name: 'Tom',
+    age: 25,
+    gender: 'male'
+};
+
+// index.ts(3,5): error TS2411: Property 'age' of type 'number' is not assignable to string index type 'string'.
+// index.ts(7,5): error TS2322: Type '{ [x: string]: string | number; name: string; age: number; gender: string; }' is not assignable to type 'Person'.
+//   Index signatures are incompatible.
+//     Type 'string | number' is not assignable to type 'string'.
+//       Type 'number' is not assignable to type 'string'.
+```
+上例中，任意属性的值允许是 string，但是可选属性 age 的值却是 number，number 不是 string 的子属性，所以报错了。
+
+只读属性
+```ts
+interface Person {
+    readonly id:number;
+    name: string;
+    age?: number;
+    [propName:string]:any
+}
+
+let tom: Person = {
+    id: 1001,
+    name: 'tom',
+    age: 1001,
+    fuck: 'caonima',
+}
+console.log(tom.fuck)
+```
+
+- 数组类型
+
+```ts
+let nums: number[] = [1,2,3,4,5,6];
+nums.push('a') //error
+
+//数组泛型
+let nums1: Array<number> = [1, 2, 3, 4, 5, 6];
+let nums2: Array<string> = ['f', 'u', 'c','k'];
+
+//对象数组
+let fucks: NumArray[] = [{id:1,name:'fuck1'},{id:2,name:'fuck2'}] 
+
+fucks.forEach(element => {
+    console.log(element)
+});
+```
+
+- 类型断言
+
+```ts
+let c3: string = 'c3';
+let result: boolean = typeof c3 === 'string';
+console.log(result);
+```
+
+- 类型别名
+
+```ts
+type fuck4 = string;
+let fuckInfo: fuck4 = 'info';
+```
+
+- 元组
+
+数组合并了相同类型的对象，而元组（Tuple）合并了不同类型的对象。
+```ts
+let yuaznu: [number, string, string, number] = [1, 'f', 'u', 2];
+```
