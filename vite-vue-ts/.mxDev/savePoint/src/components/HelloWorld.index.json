@@ -1,0 +1,28 @@
+{
+  "scheme": "v2",
+  "indexes": {
+    "1675163354443": {
+      "time": "1675163354443",
+      "desc": "@~~",
+      "pos": 0,
+      "length": 1063
+    },
+    "1675163485632": {
+      "time": "1675163485632",
+      "desc": "@~~",
+      "pos": 1063,
+      "length": 1063
+    }
+  },
+  "settings": {
+    "scheme": "v2",
+    "appendedCode": null,
+    "devDeps": null,
+    "autoImportComponent": true,
+    "loadedFrameworks": [
+      "v2Element"
+    ],
+    "codeType": "vue",
+    "codeMode": "overlap"
+  }
+}
